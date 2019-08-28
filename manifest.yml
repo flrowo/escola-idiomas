@@ -1,0 +1,6 @@
+---
+applications:
+- name: escola-idiomas
+  memory: 256M
+  routes:
+  - route: joao-libonati-escola-idiomas.mybluemix.net
