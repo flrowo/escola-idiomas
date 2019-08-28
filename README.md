@@ -1,2 +1,2 @@
 # escola-idiomas
-college cloud computing homework, using ibm-watson and image recognition api
+college cloud computing homework, express website using ibm-watson and image recognition api
