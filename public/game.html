@@ -3,10 +3,24 @@
         <title>Escola de Idiomas</title>
     </head>
     <body>
-        <h1>Escola de Idiomas</h1>
-        <h2>Bem vindo à escola de idiomas on-line</h2>
-        <p>Selecione a opção deseja abaixo:</p>
-        <p><a href="game">Jogo On-Line</a></p>
-        <p><a href="chat">Chat com Nossos Atendentes</a></p>
+
+        <h1>Jogo de palavras em inglês</h1>
+        <p>Informe a palavra, em inglês, que representa a imagem abaixo:</p>
+        
+        <span id="imagem"></span>
+
+        <form action="/gameSubmit" method="GET">
+            <input type="hidden" name="imgID" id="imgID">
+            <input type="text" name="entrada" id="entrada" placeholder="Digite sua resposta aqui">
+            <input type="submit" value="Enviar">
+        </form>
+        
+        <script>
+            imgn = Math.floor((Math.random() * 2) + 0);
+            document.getElementById("imagem").innerHTML = "<img src='/imagens/"+imgn+".png'>";
+            document.getElementById("imgID").value = imgn;
+            
+        </script> 
+        
     </body>
     </html>
