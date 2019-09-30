@@ -1,24 +1,90 @@
 <html>
     <head>
         <title>Escola de Idiomas</title>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+        <script type="text/javascript">
+            $(document).ready(() => {
+                
+                $('#enviar').click(() => {
+                    $.ajax({
+                        url: '/gameSubmit/'+imgn,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: (data) => {
+                            var resultado = "";
+                            console.log("entrada.value: "+document.getElementById("entrada").value+" || data: "+data);
+                            data.includes(document.getElementById("entrada").value.toLowerCase()) ? document.getElementById('resultado').innerHTML = "Acertou!" : document.getElementById('resultado').innerHTML = "Não foi dessa vez...";
+                        },
+                        error: (XMLHttpRequest, textStatus, errorThrown) => { 
+                            alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                        }
+                    });
+                });
+
+                $('#pedirajuda').click(() => {
+                    document.getElementById('ajuda').innerHTML = "Pedindo ajuda...";
+                    document.getElementById('ajuda').style.cursor = "default";
+                    
+                    document.getElementById('pedirajuda').innerHTML = "";
+                    document.getElementById('pedirajuda').style.visibility = "hidden";
+                    document.getElementById('pedirajuda').style.height = "0px";
+
+                    $.ajax({
+                        url: '/ajuda/'+imgn,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: (data) => {
+                            console.log(data);
+                            document.getElementById('ajuda').innerHTML = "Dica em português: "+data;
+                            document.getElementById('ajuda').style.cursor = "default";
+                            document.getElementById('pedirajuda').innerHTML = "";
+                            document.getElementById('pedirajuda').style.visibility = "hidden";
+                            document.getElementById('pedirajuda').style.height = "0px";
+                        },
+                        error: (XMLHttpRequest, textStatus, errorThrown) => { 
+                            alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                        }
+                    });
+                });
+            });
+            
+        </script>
     </head>
     <body>
-
         <h1>Jogo de palavras em inglês</h1>
         <p>Informe a palavra, em inglês, que representa a imagem abaixo:</p>
         
         <span id="imagem"></span>
-
-        <form action="/gameSubmit" method="GET">
-            <input type="hidden" name="imgID" id="imgID">
-            <input type="text" name="entrada" id="entrada" placeholder="Digite sua resposta aqui">
-            <input type="submit" value="Enviar">
-        </form>
+        <br>
+        <br>
+        <input type="hidden" name="imgID" id="imgID">
+        <input type="text" name="entrada" id="entrada" placeholder="Digite sua resposta aqui">
+        <input type="submit" value="Enviar" id="enviar">
+        <label id="resultado"></label>
+        <br><br>
+        <a id="pedirajuda" style="cursor: pointer;">Clique aqui para receber ajuda em português...</a>
+        <a id="ajuda" style="cursor: pointer;"></a>
         
         <script>
-            imgn = Math.floor((Math.random() * 3) + 0);
-            document.getElementById("imagem").innerHTML = "<img src='imagens/"+imgn+".jpg'>";
-            document.getElementById("imgID").value = imgn;
+            $(document).ready(() => {
+                $.ajax({
+                    url: '/qtdImg',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: (data) => {
+                        imgn = Math.floor((Math.random() * parseInt(data)) + 0);
+                        document.getElementById("imagem").innerHTML = "<img src='imagens/"+imgn+".jpg'>";
+                        document.getElementById("imgID").value = imgn;
+                    },
+                    error: (XMLHttpRequest, textStatus, errorThrown) => { 
+                        alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                    }
+                });
+                
+            });
+            
             
         </script> 
         

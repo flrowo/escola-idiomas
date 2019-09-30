@@ -1,9 +1,29 @@
 <html>
     <head>
         <title>Escola de Idiomas</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+        <script type="text/javascript">
+            $(document).ready(() => {
+                $('#butao').click(() => {
+                    $.ajax({
+                        url: '/test',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: (data) => {
+                            console.log(data);
+                        }
+                    });
+                });
+            });
+            
+        </script>
     </head>
     <body>
         <h1>Chat de ajuda e supporte</h1>
-        <p>Selecione a opção deseja abaixo:</p>
+        mensagem do assistente virtual: <label id="lal"></label>
+        <button id="butao">sfsjah</button>
+        
+        
     </body>
-    </html>
+</html>
