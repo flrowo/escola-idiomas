@@ -4,14 +4,26 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         
         <script type="text/javascript">
+            var idconversa;
             $(document).ready(() => {
                 $('#butao').click(() => {
+                    document.getElementById('output').innerHTML += document.getElementById('entrada').value+"<br>";
+                    var msg = document.getElementById('entrada').value;
                     $.ajax({
-                        url: '/test',
-                        type: 'GET',
+                        url: '/mandarmsg',
+                        type: 'POST',
+                        data: {
+                            msg: msg,
+                            idconversa: (idconversa ? idconversa : 1),
+                        },
                         dataType: 'json',
                         success: (data) => {
-                            console.log(data);
+                            console.log(data.input.text);
+                            console.log(data.output.text[0]);
+                            console.log(idconversa);
+                            console.log(data.context.conversation_id);
+                            idconversa = data.context.conversation_id;
+                            document.getElementById('output').innerHTML += data.output.text[0]+"<br>";
                         }
                     });
                 });
@@ -21,8 +33,12 @@
     </head>
     <body>
         <h1>Chat de ajuda e supporte</h1>
-        mensagem do assistente virtual: <label id="lal"></label>
-        <button id="butao">sfsjah</button>
+        <input id="entrada" placeholder="Digite uma mensagem...">
+        <button id="butao">Enviar</button>
+        <br>
+        <div id="output">
+
+        </div>
         
         
     </body>

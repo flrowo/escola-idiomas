@@ -8,19 +8,23 @@
             $(document).ready(() => {
                 
                 $('#enviar').click(() => {
-                    $.ajax({
-                        url: '/gameSubmit/'+imgn,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: (data) => {
-                            var resultado = "";
-                            console.log("entrada.value: "+document.getElementById("entrada").value+" || data: "+data);
-                            data.includes(document.getElementById("entrada").value.toLowerCase()) ? document.getElementById('resultado').innerHTML = "Acertou!" : document.getElementById('resultado').innerHTML = "Não foi dessa vez...";
-                        },
-                        error: (XMLHttpRequest, textStatus, errorThrown) => { 
-                            alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-                        }
-                    });
+                    if(String(document.getElementById("entrada").value).trim().length > 2) {
+                        $.ajax({
+                            url: '/gameSubmit/'+imgn,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: (data) => {
+                                var resultado = "";
+                                console.log("entrada.value: "+String(document.getElementById("entrada").value).trim()+" || data: "+data);
+                                data.includes(String(document.getElementById("entrada").value).trim().toLowerCase()) ? document.getElementById('resultado').innerHTML = "Acertou!" : document.getElementById('resultado').innerHTML = "Não foi dessa vez...";
+                            },
+                            error: (XMLHttpRequest, textStatus, errorThrown) => { 
+                                alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                            }
+                        });
+                    }
+                    else {document.getElementById('resultado').innerHTML = "Não foi dessa vez..."}
+                    
                 });
 
                 $('#pedirajuda').click(() => {
@@ -48,11 +52,17 @@
                         }
                     });
                 });
+
+                $(document).ajaxError(()=>{
+                    alert('something went wrong...')
+                });
+
             });
             
         </script>
     </head>
     <body>
+        <a href="index.html">voltar</a>
         <h1>Jogo de palavras em inglês</h1>
         <p>Informe a palavra, em inglês, que representa a imagem abaixo:</p>
         
