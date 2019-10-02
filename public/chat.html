@@ -6,7 +6,8 @@
         <script type="text/javascript">
             var idconversa;
             $(document).ready(() => {
-                $('#butao').click(() => {
+                var idconversa;
+                document.getElementById('form').onsubmit = function (e) {
                     document.getElementById('output').innerHTML += document.getElementById('entrada').value+"<br>";
                     var msg = document.getElementById('entrada').value;
                     $.ajax({
@@ -24,18 +25,21 @@
                             console.log(data.context.conversation_id);
                             idconversa = data.context.conversation_id;
                             document.getElementById('output').innerHTML += data.output.text[0]+"<br>";
+                            
                         }
                     });
-                });
+                    return false;
+                }
             });
             
         </script>
     </head>
     <body>
         <h1>Chat de ajuda e supporte</h1>
-        <input id="entrada" placeholder="Digite uma mensagem...">
-        <button id="butao">Enviar</button>
-        <br>
+        <form id="form" action = ".">
+            <input id="entrada" autocomplete="off" placeholder="Digite uma mensagem...">
+            <button type="submit">Enviar</button>
+        </form>
         <div id="output">
 
         </div>
